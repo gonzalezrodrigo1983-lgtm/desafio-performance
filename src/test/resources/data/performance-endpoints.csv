@@ -1,0 +1,4 @@
+caseId,path,expectedCode
+PERF-001,/products/1,200
+PERF-002,/products/search?q=phone,200
+PERF-003,/carts/1,200
