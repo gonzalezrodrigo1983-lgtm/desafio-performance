@@ -1,32 +1,47 @@
-# Desafío Técnico Candidatos - BancaEcuador
+# Desafío Técnico - Ejercicio de Performance con JMeter
 
-Este paquete contiene 3 proyectos independientes, uno por cada reto técnico solicitado.
+## Objetivo
+Ejecutar una prueba de performance sobre una URL pública de práctica QA:
 
-## Repositorios sugeridos
-1. `desafio-e2e-serenity-screenplay`
-2. `desafio-api-karate`
-3. `desafio-performance-jmeter`
+- URL base: `https://dummyjson.com`
+- Endpoints parametrizados en CSV:
+  - `/products/1`
+  - `/products/search?q=phone`
+  - `/carts/1`
 
-## Resumen técnico
-| Reto | Herramienta | URL pública QA | Datos | Reportes |
-|---|---|---|---|---|
-| Automatización E2E | Serenity BDD + Screenplay + Cucumber | `https://the-internet.herokuapp.com/login` | JSON | Serenity HTML + Cucumber JSON/HTML |
-| Automatización APIs | Karate Framework + JUnit 5 | `https://dummyjson.com` | JSON + CSV | Karate HTML + Cucumber JSON |
-| Performance | JMeter + Maven Plugin | `https://dummyjson.com` | CSV | JMeter Dashboard HTML + JTL/CSV |
+## Stack técnico
+- Java 17
+- Maven 3.9.1 compatible
+- Apache JMeter ejecutado mediante `jmeter-maven-plugin`
+- Datos parametrizados en CSV
+- Reporte HTML Dashboard de JMeter
 
-## Requisitos
-- JDK 17 recomendado. También compatible con el rango solicitado si se ajustan propiedades Maven.
-- Maven 3.9.1.
-- Chrome instalado para el proyecto E2E.
-
-## Ejecución rápida
-```bash
-cd desafio-e2e-serenity-screenplay && mvn clean verify
-cd ../desafio-api-karate && mvn clean test
-cd ../desafio-performance-jmeter && mvn clean verify
+## Estructura relevante
+```text
+src/test/jmeter/dummyjson-products-performance.jmx
+src/test/resources/data/performance-endpoints.csv
+docs/criterios-performance.md
 ```
 
-## Notas para GitHub
-Cada carpeta debe subirse como un repositorio independiente, según el entregable solicitado.
-# desafio-api-karate
+## Ejecutar prueba de performance
+Ejecución base:
+```bash
+mvn clean verify
+```
 
+Ejecución parametrizada:
+```bash
+mvn clean verify -Dhost=dummyjson.com -Dprotocol=https -Dusers=10 -Drampup=10 -Dloops=5
+```
+
+## Reportes generados
+- Resultados JTL/CSV: `target/jmeter/results/`
+- Dashboard HTML JMeter: `target/jmeter/reports/`
+
+## Criterios de aceptación
+Ver `docs/criterios-performance.md`.
+
+## Observaciones QA
+La prueba usa datos parametrizados en CSV, valida códigos HTTP esperados y considera una aserción de SLA máximo de 2000 ms por request. Los valores de carga pueden modificarse por propiedades Maven sin tocar el archivo JMX.
+# desafio-performance
+#
